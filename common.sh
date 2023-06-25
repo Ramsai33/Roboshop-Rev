@@ -43,10 +43,10 @@ App_Prereq() {
 
     cd /app
 }
+schema_load() {
+if [ ${schema_load}==true ]; then
 
-if [ schema_load=true ];then
-  schema_load() {
-  cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
+    cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
 
     print_head "Installing Mongoclient"
     yum install mongodb-org-shell -y &>>${LOG}
