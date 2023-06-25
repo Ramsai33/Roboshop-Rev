@@ -23,4 +23,4 @@ status_check
 cd /usr/share/nginx/html &>>${LOG}
 unzip /tmp/frontend.zip &>>${LOG}
 
-${script_location}/files/frontend-conf /etc/nginx/default.d/roboshop.conf
+cp ${script_location}/files/frontend-conf /etc/nginx/default.d/roboshop.conf
