@@ -37,7 +37,7 @@ nodejs() {
   status_check
 
   print_head "Downloading"
-  curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${LOG}
+  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
   status_check
 
   print_head "Removing App Content"
@@ -46,7 +46,7 @@ nodejs() {
 
   print_head "Extracting App content"
   cd /app
-  unzip /tmp/catalogue.zip &>>${LOG}
+  unzip /tmp/${component}.zip &>>${LOG}
   status_check
 
   cd /app
@@ -55,13 +55,13 @@ nodejs() {
   npm install &>>${LOG}
   status_check
 
-  cp ${script_location}/files/catalogue-conf /etc/systemd/system/catalogue.service &>>${LOG}
+  cp ${script_location}/files/${component}-conf /etc/systemd/system/${component}.service &>>${LOG}
 
   systemctl daemon-reload &>>${LOG}
 
   print_head "Starting Service"
-  systemctl enable catalogue &>>${LOG}
-  systemctl start catalogue &>>${LOG}
+  systemctl enable ${component} &>>${LOG}
+  systemctl start ${component} &>>${LOG}
   status_check
 
   cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
@@ -70,6 +70,6 @@ nodejs() {
   yum install mongodb-org-shell -y &>>${LOG}
   status_check
 
-  mongo --host 172.31.84.182 </app/schema/catalogue.js &>>${LOG}
+  mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
 
 }
