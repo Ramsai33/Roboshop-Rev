@@ -16,7 +16,7 @@ fi
 status_check
 
 print_head "Creating App Folder"
-mkdir /app &>>${LOG}
+mkdir /app -p &>>${LOG}
 status_check
 
 print_head "Downloadinga and Extracting App content"
