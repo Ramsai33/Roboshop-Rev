@@ -67,6 +67,7 @@ if [ ${schema_load} == "true" ]; then
 
     systemctl restart shipping
   fi
+fi
 
 }
 
