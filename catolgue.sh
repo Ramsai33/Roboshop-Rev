@@ -12,8 +12,8 @@ print_head "Useradd"
 id roboshop &>>${LOG}
 if [ $? -ne 0 ]; then
   useradd roboshop &>>${LOG}
-  status_check
 fi
+status_check
 
 print_head "Creating App Folder"
 mkdir /app &>>${LOG}
