@@ -9,6 +9,8 @@ print_head "Disable Repo"
 yum module disable mysql -y &>>${LOG}
 status_check
 
+cp ${script_location}/files/mysql-repo /etc/yum.repos.d/mysql.repo &>>${LOG}
+
 print_head "Install Mysql"
 yum install mysql-community-server -y &>>${LOG}
 status_check
