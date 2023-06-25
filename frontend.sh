@@ -9,6 +9,7 @@ else
   echo -e "\e[33mFAILURE\e[0m"
   echo "Please Refer log for more info -${LOG}"
 exit1
+fi
 
 systemctl enable nginx &>>${LOG}
 systemctl start nginx &>>${LOG}
