@@ -1,5 +1,5 @@
 source common.sh
 
 component=catalogue
-schemaload=true
+schema_load=true
 nodejs
