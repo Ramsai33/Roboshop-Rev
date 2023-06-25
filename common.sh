@@ -53,7 +53,7 @@ if [ ${schema_load} == "true" ]; then
     yum install mongodb-org-shell -y &>>${LOG}
     status_check
 
-    mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
+    mongo --host mongodb-dev.ramdevops35.online </app/schema/${component}.js &>>${LOG}
   fi
 
   if [ ${schema_type} == "mysql" ]; then
