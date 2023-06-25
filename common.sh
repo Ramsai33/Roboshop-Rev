@@ -45,6 +45,7 @@ App_Prereq() {
 }
 schema_load() {
 if [ ${schema_load} == "true" ]; then
+  if [ ${schema_type} == "mongo"];then
 
     cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
 
@@ -53,7 +54,31 @@ if [ ${schema_load} == "true" ]; then
     status_check
 
     mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
-fi
+  fi
+
+  if [ ${schema_type} == "mysql" ]; then
+    print_head "Install Mysql"
+    yum install mysql -y &>>${LOG}
+    status_check
+
+    print_head "SettingUp password"
+    mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${set_root_password} < /app/schema/shipping.sql
+    status_check
+
+    systemctl restart shipping
+  fi
+
+}
+
+systemd() {
+  cp ${script_location}/files/${component}-conf /etc/systemd/system/${component}.service &>>${LOG}
+
+    systemctl daemon-reload &>>${LOG}
+
+    print_head "Starting Service"
+    systemctl enable ${component} &>>${LOG}
+    systemctl start ${component} &>>${LOG}
+    status_check
 }
 
 nodejs() {
@@ -71,14 +96,24 @@ nodejs() {
   npm install &>>${LOG}
   status_check
 
-  cp ${script_location}/files/${component}-conf /etc/systemd/system/${component}.service &>>${LOG}
+  systemd
 
-  systemctl daemon-reload &>>${LOG}
+  schema_load
 
-  print_head "Starting Service"
-  systemctl enable ${component} &>>${LOG}
-  systemctl start ${component} &>>${LOG}
+}
+
+Maven() {
+  print_head "Install Maven"
+  yum install maven -y &>>${LOG}
   status_check
+
+  App_Prereq
+
+  cd /app
+  mvn clean package
+  mv target/shipping-1.0.jar shipping.jar
+
+  systemd
 
   schema_load
 
