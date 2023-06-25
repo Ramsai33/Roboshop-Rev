@@ -15,6 +15,45 @@ status_check() {
   fi
 }
 
+App_Prereq() {
+  print_head "Useradd"
+    id roboshop &>>${LOG}
+    if [ $? -ne 0 ]; then
+      useradd roboshop &>>${LOG}
+    fi
+    status_check
+
+
+    print_head "Creating App Folder"
+    mkdir /app -p &>>${LOG}
+    status_check
+
+    print_head "Downloading"
+    curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
+    status_check
+
+    print_head "Removing App Content"
+    rm -rf /app/* &>>${LOG}
+    status_check
+
+    print_head "Extracting App content"
+    cd /app
+    unzip /tmp/${component}.zip &>>${LOG}
+    status_check
+
+    cd /app
+}
+
+Schema_load() {
+  cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
+
+    print_head "Installing Mongoclient"
+    yum install mongodb-org-shell -y &>>${LOG}
+    status_check
+
+    mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
+}
+
 nodejs() {
   print_head "Downloading Node Repo"
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${LOG}
@@ -24,32 +63,7 @@ nodejs() {
   yum install nodejs -y &>>${LOG}
   status_check
 
-  print_head "Useradd"
-  id roboshop &>>${LOG}
-  if [ $? -ne 0 ]; then
-    useradd roboshop &>>${LOG}
-  fi
-  status_check
-
-
-  print_head "Creating App Folder"
-  mkdir /app -p &>>${LOG}
-  status_check
-
-  print_head "Downloading"
-  curl -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${LOG}
-  status_check
-
-  print_head "Removing App Content"
-  rm -rf /app/* &>>${LOG}
-  status_check
-
-  print_head "Extracting App content"
-  cd /app
-  unzip /tmp/${component}.zip &>>${LOG}
-  status_check
-
-  cd /app
+  App_Prereq
 
   print_head "Installing Dependencies"
   npm install &>>${LOG}
@@ -64,12 +78,6 @@ nodejs() {
   systemctl start ${component} &>>${LOG}
   status_check
 
-  cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
-
-  print_head "Installing Mongoclient"
-  yum install mongodb-org-shell -y &>>${LOG}
-  status_check
-
-  mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
+  Schema_load
 
 }
