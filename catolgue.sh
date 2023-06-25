@@ -15,12 +15,20 @@ if [ $? -ne 0 ]; then
 fi
 status_check
 
+
 print_head "Creating App Folder"
 mkdir /app -p &>>${LOG}
 status_check
 
-print_head "Downloadinga and Extracting App content"
+print_head "Downloading"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${LOG}
+status_check
+
+print_head "Removing App Content"
+rm -rf /app/* &>>${LOG}
+status_check
+
+print_head "Extracting App content"
 cd /app
 unzip /tmp/catalogue.zip &>>${LOG}
 status_check
