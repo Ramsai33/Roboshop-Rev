@@ -44,7 +44,7 @@ App_Prereq() {
     cd /app
 }
 schema_load() {
-if [ ${schema_load}=="true" ]; then
+if [ ${schema_load} == "true" ]; then
 
     cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
 
