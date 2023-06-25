@@ -45,7 +45,7 @@ App_Prereq() {
 }
 
 if [ schema_load=true ];then
-  Schema_load() {
+  schema_load() {
   cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
 
     print_head "Installing Mongoclient"
@@ -79,6 +79,6 @@ nodejs() {
   systemctl start ${component} &>>${LOG}
   status_check
 
-  Schema_load
+  schema_load
 
 }
