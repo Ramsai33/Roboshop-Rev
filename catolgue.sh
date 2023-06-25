@@ -17,7 +17,7 @@ mkdir /app &>>${LOG}
 print_head "Downloadinga and Extracting App content"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${LOG}
 cd /app
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>>${LOG}
 status_check
 
 cd /app
