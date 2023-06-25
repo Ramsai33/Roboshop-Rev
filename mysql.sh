@@ -1,6 +1,6 @@
 source common.sh
 
-if[ -z "${set_root_password}"]; then
+if[ -z "${set_root_password}" ]; then
   echo "Please Enter Password"
 fi
 
