@@ -9,7 +9,7 @@ yum install nodejs -y &>>${LOG}
 status_check
 
 print_head "Useradd"
-id roboshop
+id roboshop &>>${LOG}
 if [ $? -ne 0 ]; then
   useradd roboshop &>>${LOG}
   status_check
