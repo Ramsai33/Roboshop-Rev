@@ -53,6 +53,7 @@ if [ ${schema_load}==true ]; then
     status_check
 
     mongo --host 172.31.84.182 </app/schema/${component}.js &>>${LOG}
+fi
 }
 
 nodejs() {
