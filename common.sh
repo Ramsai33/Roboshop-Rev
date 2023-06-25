@@ -45,7 +45,7 @@ App_Prereq() {
 }
 schema_load() {
 if [ ${schema_load} == "true" ]; then
-  if [ ${schema_type} == "mongo"];then
+  if [ ${schema_type} == "mongo" ]; then
 
     cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
 
