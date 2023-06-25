@@ -111,8 +111,8 @@ Maven() {
   App_Prereq
 
   cd /app
-  mvn clean package
-  mv target/shipping-1.0.jar shipping.jar
+  mvn clean package &>>${LOG}
+  mv target/shipping-1.0.jar shipping.jar &>>${LOG}
 
   systemd
 
