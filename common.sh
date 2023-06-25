@@ -62,7 +62,7 @@ if [ ${schema_load} == "true" ]; then
     status_check
 
     print_head "SettingUp password"
-    mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -p${set_root_password} < /app/schema/shipping.sql
+    mysql -h mysql-dev.ramdevops35.online -uroot -p${set_root_password} < /app/schema/shipping.sql
     status_check
 
     systemctl restart shipping
