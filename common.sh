@@ -47,7 +47,7 @@ schema_load() {
 if [ ${schema_load} == "true" ]; then
   if [ ${schema_type} == "mongo" ]; then
 
-    cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongo.repo &>>${LOG}
+    cp ${script_location}/files/mongoclient /etc/yum.repos.d/mongodb.repo &>>${LOG}
 
     print_head "Installing Mongoclient"
     yum install mongodb-org-shell -y &>>${LOG}
